@@ -35,7 +35,6 @@ SZ="7z"
 
 BUILD="./.build"
 CACHE="./.cache"
-CACHE_LIB="$CACHE/lib"
 COPY_DEST="/sdcard/Download"
 LIB_DIR="$BUILD/lib/$LIB_ARCH"
 RES="./res"
@@ -49,8 +48,9 @@ C_LIB="$C_SRC_N/third_party/lib"
 JAVA_DIR="./src/java"
 JAVA_SRC="$JAVA_DIR/$PACKAGE"
 JAVA_LIBS="$JAVA_DIR/third_party"
-JAVA_SDL="$CACHE_LIB/org/libsdl/app"
 JAVA_CLASS="$CACHE/**/*.class"
+
+JAVA_SDL3="$JAVA_LIBS/SDL3/SDL3.jar"
 
 #
 
@@ -74,10 +74,9 @@ LIB_Z="lib"
 AAPT2_CF="compile -o $BUILD --dir $RES"
 AAPT2_LF="link -I $SDK_PATH --manifest $MANIFEST -o $APK_UNSIGNED $FLATS"
 
-JAVA_LIB_F="--release 17 -cp $SDK_PATH -d $CACHE_LIB"
-JAVA_SRC_F="--release 17 -cp "$SDK_PATH:$CACHE_LIB" -d $CACHE"
+JAVA_SRC_F="--release 17 -cp "$SDK_PATH:$JAVA_SDL3" -d $CACHE"
 
-D8_F="--min-api $MIN_SDK_VERSION --lib $SDK_PATH --output $BUILD $JAVA_CLASS"
+D8_F="--min-api $MIN_SDK_VERSION --lib $SDK_PATH --output $BUILD $JAVA_CLASS $JAVA_SDL3"
 
 SZ_F="-y x"
 
@@ -102,7 +101,6 @@ CLANG_CLF="-L$SDL3_L -lSDL3 -landroid -llog -lEGL -lGLESv3"
 #
 
 JAVA_SRC_FILES="$CACHE/java_src_files.txt"
-JAVA_SRC_LIBS="$CACHE_LIB/java_src_libs.txt"
 
 C_SRC_FILES=(
   "main.c"
