@@ -33,21 +33,18 @@ if [[ ! -v KS_PASS ]]; then
 fi
 
 rm -rf $BUILD
-mkdir -p $BUILD $CACHE $CACHE_LIB $LIB_DIR
+mkdir -p $BUILD $CACHE $LIB_DIR
 
 #
+
+echo "Extracting SDL3 library..."
+$SZ $SZ_F $C_LIB/SDL3/libSDL3.7z -o$C_LIB/SDL3/
 
 echo "Compiling resources..."
 $AAPT2 $AAPT2_CF
 
 echo "Linking resources..."
 $AAPT2 $AAPT2_LF
-
-if [[ ! -d "$JAVA_SDL" ]]; then
-  echo "Compiling Java libraries..."
-  find $JAVA_LIBS -name "*.java" > $JAVA_SRC_LIBS
-  $JAVAC $JAVA_LIB_F @$JAVA_SRC_LIBS
-fi
 
 echo "Compiling Java sources..."
 find $JAVA_SRC -name "*.java" > $JAVA_SRC_FILES
@@ -63,9 +60,6 @@ cd $OLDPWD
 
 echo "Linking C objects..."
 $CLANG $CLANG_CFF -o $LIB $CACHE/*.o $CLANG_CLF
-
-echo "Extracting SDL3 library..."
-$SZ $SZ_F $C_LIB/SDL3/libSDL3.7z -o$C_LIB/SDL3/
 
 echo "Copying SDL3 shared library..."
 cp $SDL3 $LIB_DIR
