@@ -1,0 +1,13 @@
+# TODO: update gitignore as needed
+
+.build/
+.cache/
+
+arm64-v8a/
+armeabi-v7a/
+
+*.keystore
+*.jks
+*.p12
+
+tags
