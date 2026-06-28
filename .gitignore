@@ -3,11 +3,10 @@
 .build/
 .cache/
 
-arm64-v8a/
-armeabi-v7a/
-
 *.keystore
 *.jks
 *.p12
+
+*.so
 
 tags
