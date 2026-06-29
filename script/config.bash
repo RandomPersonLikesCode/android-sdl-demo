@@ -96,7 +96,7 @@ CLANG_O="-O0 -g3 -fno-omit-frame-pointer"
 CLANG_COF="-std=$CLANG_CSTD $CLANG_W $CLANG_O -isystem $C_INCL -fcolor-diagnostics -c -fPIC"
 CLANG_COF_L="$CLANG_O -isystem $C_INCL -c -fPIC"
 CLANG_CFF="-shared"
-CLANG_CLF="-L$SDL3_L -lSDL3 -landroid -llog -lEGL -lGLESv3"
+CLANG_CLF="-L$SDL3_L -lSDL3"
 
 #
 
