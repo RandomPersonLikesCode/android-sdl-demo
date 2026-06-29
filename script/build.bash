@@ -37,8 +37,8 @@ mkdir -p $BUILD $CACHE $LIB_DIR
 
 #
 
-if [[ -v EXTRACT_LIBS ]]; then
-  echo "Extracting SDL3 library..."
+if [[ -v SETUP_LIBS ]]; then
+  echo "Extracting Libraries..."
   $SZ $SZ_F $C_LIB/SDL3/libSDL3.7z -o$C_LIB/SDL3/
 else
   echo "Libraries are not extracted"
@@ -55,10 +55,11 @@ if [[ -v COMPILE_JAVA ]]; then
   find $JAVA_SRC -name "*.java" > $JAVA_SRC_FILES
   $JAVAC $JAVA_SRC_F @$JAVA_SRC_FILES
 
-  echo "Converting Java classes..."
+  echo "Dexing Java classes..."
   $D8 $D8_F
 else
-  echo "Java sources are not compiled and converted to dex"
+  echo "Java sources are not compiled"
+  echo "Java classes are not dexed"
 fi
 
 if [[ -v COMPILE_C ]]; then
@@ -69,12 +70,16 @@ if [[ -v COMPILE_C ]]; then
 
   echo "Linking C objects..."
   $CLANG $CLANG_CFF -o $LIB $CACHE/*.o $CLANG_CLF
+else
+  echo "C sources are not compiled"
+  echo "C objects are not linked"
+fi
 
-  echo "Copying SDL3 shared library..."
+if [[ -v SETUP_LIBS ]]; then
+  echo "Copying shared libraries..."
   cp $SDL3 $LIB_DIR
 else
-  echo "C sources were not compiled and linked"
-  echo "SDL3 library were not copied"
+  echo "Libraries are not copied"
 fi
 
 echo "Zipping libraries and dex..."
