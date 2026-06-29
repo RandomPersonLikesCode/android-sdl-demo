@@ -37,8 +37,12 @@ mkdir -p $BUILD $CACHE $LIB_DIR
 
 #
 
-echo "Extracting SDL3 library..."
-$SZ $SZ_F $C_LIB/SDL3/libSDL3.7z -o$C_LIB/SDL3/
+if [[ -v EXTRACT_LIBS ]]; then
+  echo "Extracting SDL3 library..."
+  $SZ $SZ_F $C_LIB/SDL3/libSDL3.7z -o$C_LIB/SDL3/
+else
+  echo "Libraries are not extracted"
+fi
 
 echo "Compiling resources..."
 $AAPT2 $AAPT2_CF
@@ -53,6 +57,8 @@ if [[ -v COMPILE_JAVA ]]; then
 
   echo "Converting Java classes..."
   $D8 $D8_F
+else
+  echo "Java sources are not compiled and converted to dex"
 fi
 
 if [[ -v COMPILE_C ]]; then

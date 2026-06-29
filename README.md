@@ -17,7 +17,7 @@ This project is also tested on-device using Termux to build.
 To build, make sure to have a keystore file using `keytool`, then run this:
 
 ```sh
-KS=<keystore_file> KS_ALIAS=<keystore_alias> KS_PASS=<keystore_password> COPY= bash script/build.bash
+KS=<keystore_file> KS_ALIAS=<keystore_alias> KS_PASS=<keystore_password> EXTRACT_LIBS= COMPILE_JAVA= COMPILE_C= COPY= bash script/build.bash
 ```
 
 To just clean build artifacts, run:
