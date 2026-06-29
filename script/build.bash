@@ -46,26 +46,33 @@ $AAPT2 $AAPT2_CF
 echo "Linking resources..."
 $AAPT2 $AAPT2_LF
 
-echo "Compiling Java sources..."
-find $JAVA_SRC -name "*.java" > $JAVA_SRC_FILES
-$JAVAC $JAVA_SRC_F @$JAVA_SRC_FILES
+if [[ -v COMPILE_JAVA ]]; then
+  echo "Compiling Java sources..."
+  find $JAVA_SRC -name "*.java" > $JAVA_SRC_FILES
+  $JAVAC $JAVA_SRC_F @$JAVA_SRC_FILES
 
-echo "Converting Java classes..."
-$D8 $D8_F
+  echo "Converting Java classes..."
+  $D8 $D8_F
+fi
 
-echo "Compiling C sources..."
-cd $CACHE
-printf "$C_SRC/%s\n" "${C_SRC_FILES[@]}" | parallel -j $PROC $CLANG $CLANG_COF {}
-cd $OLDPWD
+if [[ -v COMPILE_C ]]; then
+  echo "Compiling C sources..."
+  cd $CACHE
+  printf "$C_SRC/%s\n" "${C_SRC_FILES[@]}" | parallel -j $PROC $CLANG $CLANG_COF {}
+  cd $OLDPWD
 
-echo "Linking C objects..."
-$CLANG $CLANG_CFF -o $LIB $CACHE/*.o $CLANG_CLF
+  echo "Linking C objects..."
+  $CLANG $CLANG_CFF -o $LIB $CACHE/*.o $CLANG_CLF
 
-echo "Copying SDL3 shared library..."
-cp $SDL3 $LIB_DIR
+  echo "Copying SDL3 shared library..."
+  cp $SDL3 $LIB_DIR
+else
+  echo "C sources were not compiled and linked"
+  echo "SDL3 library were not copied"
+fi
 
 echo "Zipping libraries and dex..."
-cd $BUILD
+cd $CACHE
 $ZIP $ZIP_F
 cd $OLDPWD
 

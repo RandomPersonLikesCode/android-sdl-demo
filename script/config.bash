@@ -36,7 +36,7 @@ SZ="7z"
 BUILD="./.build"
 CACHE="./.cache"
 COPY_DEST="/sdcard/Download"
-LIB_DIR="$BUILD/lib/$LIB_ARCH"
+LIB_DIR="$CACHE/lib/$LIB_ARCH"
 RES="./res"
 
 C_SRC="../src/jni"
@@ -55,7 +55,7 @@ JAVA_SDL3="$JAVA_LIBS/SDL3/SDL3.jar"
 #
 
 MANIFEST="./AndroidManifest.xml"
-FLATS="$BUILD/*.flat"
+FLATS="$CACHE/*.flat"
 
 LIB="$LIB_DIR/lib$LIB_NAME.so"
 
@@ -66,17 +66,17 @@ APK_SIGNED="$BUILD/app-signed.apk"
 SDL3_L="$C_LIB/SDL3/$LIB_ARCH"
 SDL3="$SDL3_L/libSDL3.so"
 
-APK_Z="app-unsigned.apk"
+APK_Z=".$BUILD/app-unsigned.apk"
 LIB_Z="lib"
 
 #
 
-AAPT2_CF="compile -o $BUILD --dir $RES"
+AAPT2_CF="compile -o $CACHE --dir $RES"
 AAPT2_LF="link -I $SDK_PATH --manifest $MANIFEST -o $APK_UNSIGNED $FLATS"
 
 JAVA_SRC_F="--release 17 -cp "$SDK_PATH:$JAVA_SDL3" -d $CACHE"
 
-D8_F="--min-api $MIN_SDK_VERSION --lib $SDK_PATH --output $BUILD $JAVA_CLASS $JAVA_SDL3"
+D8_F="--min-api $MIN_SDK_VERSION --lib $SDK_PATH --output $CACHE $JAVA_CLASS $JAVA_SDL3"
 
 SZ_F="-y x"
 
