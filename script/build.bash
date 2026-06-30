@@ -40,8 +40,12 @@ mkdir -p $BUILD $CACHE $LIB_DIR
 if [[ -v SETUP_LIBS ]]; then
   echo "Extracting Libraries..."
   $SZ $SZ_F $C_LIB/SDL3/libSDL3.7z -o$C_LIB/SDL3/
+
+  echo "Copying shared libraries..."
+  cp $SDL3 $LIB_DIR
 else
   echo "Libraries are not extracted"
+  echo "Libraries are not copied"
 fi
 
 echo "Compiling resources..."
@@ -73,13 +77,6 @@ if [[ -v COMPILE_C ]]; then
 else
   echo "C sources are not compiled"
   echo "C objects are not linked"
-fi
-
-if [[ -v SETUP_LIBS ]]; then
-  echo "Copying shared libraries..."
-  cp $SDL3 $LIB_DIR
-else
-  echo "Libraries are not copied"
 fi
 
 echo "Zipping libraries and dex..."
